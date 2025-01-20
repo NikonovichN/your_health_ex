@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:your_health_ex/src/api/api.dart';
-import 'package:your_health_ex/src/features/dynamic/repository.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../api/api.dart';
+
+import 'repository.dart';
 import 'controller.dart';
 
 class DynamicScreen extends StatelessWidget {
@@ -27,7 +30,12 @@ class DynamicScreen extends StatelessWidget {
           return _Error(errorMessage: '${snapshot.data!.error?.message}');
         }
 
-        return Text('Everything ok!');
+        return Column(
+          children: [
+            Text(AppLocalizations.of(context)!.dynamicScreenTitle),
+            Text(AppLocalizations.of(context)!.dynamicScreenSubTitle),
+          ],
+        );
       },
     );
   }
