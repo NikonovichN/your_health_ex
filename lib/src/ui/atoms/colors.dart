@@ -9,6 +9,7 @@ class YourHealthAppColors {
   static const lightBlue = Color.fromRGBO(201, 233, 243, 0.349);
   static const greenAccent = Color.fromRGBO(5, 143, 51, 1);
   static const lightGreen = Color.fromRGBO(31, 219, 131, 0.534);
+  static const dirtyGreen = Color.fromRGBO(14, 99, 59, 0.533);
   static const baseGreen = Color.fromRGBO(57, 216, 118, 0.863);
   static const orangeAccent = Color.fromRGBO(194, 154, 25, 1);
   static const link = Color.fromRGBO(31, 92, 226, 1);

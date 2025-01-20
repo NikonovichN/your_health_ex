@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:fl_chart/fl_chart.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
@@ -46,6 +48,7 @@ class DynamicScreen extends StatelessWidget {
             child: Column(
               children: [
                 const _Title(),
+                _Chart(data: labs),
                 if (alerts != null && alerts.isNotEmpty)
                   ...alerts.map((alert) => _ResubmitMarkersLabel(
                         alert: alert,
@@ -68,6 +71,115 @@ class _Error extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text('${AppLocalizations.of(context)!.somethingWentWrong}$errorMessage');
+  }
+}
+
+class _Chart extends StatelessWidget {
+  static const _padding = EdgeInsets.symmetric(vertical: 16.0);
+  static const List<Color> gradientColors = [
+    YourHealthAppColors.baseGreen,
+    YourHealthAppColors.dirtyGreen,
+  ];
+  static const _showTitles = AxisTitles(
+    sideTitles: SideTitles(showTitles: false),
+  );
+
+  final List<Laboratory> data;
+
+  const _Chart({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    if (data.isEmpty) return SizedBox.shrink();
+
+    return Padding(
+      padding: _padding,
+      child: AspectRatio(
+        aspectRatio: 1.6,
+        child: LineChart(
+          LineChartData(
+            lineTouchData: const LineTouchData(enabled: false),
+            gridData: FlGridData(show: false),
+            borderData: FlBorderData(show: false),
+            titlesData: FlTitlesData(
+              show: true,
+              leftTitles: _showTitles,
+              topTitles: _showTitles,
+              rightTitles: _showTitles,
+              bottomTitles: AxisTitles(
+                sideTitles: SideTitles(
+                  showTitles: true,
+                  reservedSize: 30.0,
+                  interval: 3.0,
+                  minIncluded: false,
+                  maxIncluded: false,
+                  getTitlesWidget: (value, titleMeta) => _ChartBottomTitleWidget(
+                    meta: titleMeta,
+                    value: value,
+                    date: data[value.toInt()].date,
+                  ),
+                ),
+              ),
+            ),
+            maxY: 8.0,
+            minY: 0.0,
+            lineBarsData: [
+              LineChartBarData(
+                spots:
+                    data.mapIndexed((index, lab) => FlSpot(index.toDouble(), lab.value)).toList(),
+                isCurved: true,
+                gradient: LinearGradient(
+                  colors: [
+                    ColorTween(begin: gradientColors[0], end: gradientColors[1]).lerp(0.2)!,
+                    ColorTween(begin: gradientColors[0], end: gradientColors[1]).lerp(0.2)!,
+                  ],
+                ),
+                barWidth: 4,
+                dotData: const FlDotData(show: false),
+                aboveBarData: BarAreaData(
+                  show: true,
+                  gradient: LinearGradient(
+                    colors: gradientColors.map((color) => color.withValues(alpha: 0.3)).toList(),
+                  ),
+                ),
+                belowBarData: BarAreaData(
+                  show: true,
+                  gradient: LinearGradient(
+                    colors: gradientColors.map((color) => color.withValues(alpha: 0.8)).toList(),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ChartBottomTitleWidget extends StatelessWidget {
+  final double value;
+  final TitleMeta meta;
+  final DateTime date;
+
+  const _ChartBottomTitleWidget({
+    required this.value,
+    required this.meta,
+    required this.date,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SideTitleWidget(
+      meta: meta,
+      child: Text(
+        DateFormat('dd MMM y').format(date),
+        style: TextStyle(
+          fontWeight: FontWeight.w300,
+          fontSize: 14,
+        ),
+      ),
+    );
   }
 }
 
