@@ -10,6 +10,8 @@ import 'repository.dart';
 import 'controller.dart';
 
 class DynamicScreen extends StatelessWidget {
+  static const _pagePadding = EdgeInsets.symmetric(horizontal: 12.0, vertical: 32.0);
+
   const DynamicScreen({super.key});
 
   @override
@@ -33,13 +35,18 @@ class DynamicScreen extends StatelessWidget {
         }
 
         final screenData = snapshot.data?.screenData;
+        final alerts = screenData?.alerts;
         final labs = screenData?.laboratories ?? [];
 
         return SingleChildScrollView(
+          padding: _pagePadding,
           child: Column(
             children: [
-              Text(AppLocalizations.of(context)!.dynamicScreenTitle),
-              Text(AppLocalizations.of(context)!.dynamicScreenSubTitle),
+              const _Title(),
+              if (alerts != null && alerts.isNotEmpty)
+                ...alerts.map((alert) => _ResubmitMarkersLabel(
+                      alert: alert,
+                    )),
               _Labs(data: labs),
             ],
           ),
@@ -50,21 +57,96 @@ class DynamicScreen extends StatelessWidget {
 }
 
 class _Error extends StatelessWidget {
-  static const _errorPredefinedText = 'Something went wrong: ';
-
   final String errorMessage;
 
   const _Error({required this.errorMessage});
 
   @override
   Widget build(BuildContext context) {
-    return Text('$_errorPredefinedText$errorMessage');
+    return Text('${AppLocalizations.of(context)!.somethingWentWrong}$errorMessage');
+  }
+}
+
+class _Title extends StatelessWidget {
+  const _Title();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              AppLocalizations.of(context)!.dynamicScreenTitle,
+              style: TextStyle(
+                color: YourHealthAppColors.black,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              AppLocalizations.of(context)!.dynamicScreenSubTitle,
+              style: TextStyle(
+                color: YourHealthAppColors.grey,
+                fontSize: 20,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _ResubmitMarkersLabel extends StatelessWidget {
+  static const _margin = EdgeInsets.symmetric(vertical: 24.0);
+  static const _padding = EdgeInsets.all(16.0);
+  static const _emptySpace = SizedBox(height: 16.0);
+
+  final Alert alert;
+
+  const _ResubmitMarkersLabel({required this.alert});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: _padding,
+      margin: _margin,
+      decoration: BoxDecoration(color: YourHealthAppColors.lightBlue),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            alert.message,
+            style: TextStyle(
+              color: YourHealthAppColors.grey,
+              fontSize: 18,
+            ),
+          ),
+          if (alert.resubmitLink) ...[
+            _emptySpace,
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                AppLocalizations.of(context)!.dynamicScreenResubmitMarkersLink,
+                style: TextStyle(
+                  color: YourHealthAppColors.link,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
   }
 }
 
 class _Labs extends StatelessWidget {
   static const _dividerSide = BorderSide(color: YourHealthAppColors.lightGray);
-  static const _padding = EdgeInsets.symmetric(horizontal: 3.0);
 
   final List<Laboratory> data;
 
@@ -76,15 +158,12 @@ class _Labs extends StatelessWidget {
 
     return Column(
       children: [
-        Padding(
-          padding: _padding,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(AppLocalizations.of(context)!.dynamicScreenSubLabsDate),
-              Text(AppLocalizations.of(context)!.dynamicScreenSubLabsMl),
-            ],
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(AppLocalizations.of(context)!.dynamicScreenSubLabsDate),
+            Text(AppLocalizations.of(context)!.dynamicScreenSubLabsMl),
+          ],
         ),
         Container(
           height: 8.0,
