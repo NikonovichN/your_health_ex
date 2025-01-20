@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 class YourHealthAppColors {
   YourHealthAppColors._();
 
-  static const black = Color.fromRGBO(0, 0, 0, 1);
-  static const grey = Color.fromRGBO(117, 117, 117, 1);
-  static const lightGray = Color.fromRGBO(172, 166, 166, 1);
-  static const lightBlue = Color.fromRGBO(201, 233, 243, 0.349);
-  static const greenAccent = Color.fromRGBO(5, 143, 51, 1);
-  static const lightGreen = Color.fromRGBO(31, 219, 131, 0.534);
-  static const dirtyGreen = Color.fromRGBO(14, 99, 59, 0.533);
-  static const baseGreen = Color.fromRGBO(57, 216, 118, 0.863);
-  static const orangeAccent = Color.fromRGBO(194, 154, 25, 1);
-  static const link = Color.fromRGBO(31, 92, 226, 1);
+  static const black = Color.fromRGBO(26, 26, 26, 1);
+  static const grey = Color.fromRGBO(176, 176, 176, 1);
+  static const lightGray = Color.fromRGBO(130, 130, 130, 1);
+  static const strokeGray = Color.fromRGBO(237, 237, 237, 1);
+  static const lightBlue = Color.fromRGBO(249, 250, 255, 1);
+  static const greenAccent = Color.fromRGBO(39, 164, 116, 1);
+  static const orangeAccent = Color.fromRGBO(255, 161, 0, 1);
+  static const link = Color.fromRGBO(0, 94, 255, 1);
+
+  static const chartAboveLine = Color.fromRGBO(39, 164, 116, .1);
+  static const chartBelowLine = Color.fromRGBO(105, 177, 55, .3);
+  static const chartLine = Color.fromRGBO(39, 164, 116, 1);
 }

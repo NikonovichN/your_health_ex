@@ -12,7 +12,7 @@ import 'repository.dart';
 import 'controller.dart';
 
 class DynamicScreen extends StatelessWidget {
-  static const _pagePadding = EdgeInsets.symmetric(horizontal: 12.0, vertical: 32.0);
+  static const _pagePadding = EdgeInsets.symmetric(horizontal: 20.0, vertical: 32.0);
 
   const DynamicScreen({super.key});
 
@@ -76,10 +76,6 @@ class _Error extends StatelessWidget {
 
 class _Chart extends StatelessWidget {
   static const _padding = EdgeInsets.symmetric(vertical: 16.0);
-  static const List<Color> gradientColors = [
-    YourHealthAppColors.baseGreen,
-    YourHealthAppColors.dirtyGreen,
-  ];
   static const _showTitles = AxisTitles(
     sideTitles: SideTitles(showTitles: false),
   );
@@ -109,7 +105,6 @@ class _Chart extends StatelessWidget {
               bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
                   showTitles: true,
-                  reservedSize: 30.0,
                   interval: 3.0,
                   minIncluded: false,
                   maxIncluded: false,
@@ -129,23 +124,29 @@ class _Chart extends StatelessWidget {
                     data.mapIndexed((index, lab) => FlSpot(index.toDouble(), lab.value)).toList(),
                 isCurved: true,
                 gradient: LinearGradient(
-                  colors: [
-                    ColorTween(begin: gradientColors[0], end: gradientColors[1]).lerp(0.2)!,
-                    ColorTween(begin: gradientColors[0], end: gradientColors[1]).lerp(0.2)!,
+                  colors: const [
+                    YourHealthAppColors.chartLine,
+                    YourHealthAppColors.chartLine,
                   ],
                 ),
-                barWidth: 4,
+                barWidth: 2,
                 dotData: const FlDotData(show: false),
                 aboveBarData: BarAreaData(
                   show: true,
                   gradient: LinearGradient(
-                    colors: gradientColors.map((color) => color.withValues(alpha: 0.3)).toList(),
+                    colors: const [
+                      YourHealthAppColors.chartAboveLine,
+                      YourHealthAppColors.chartAboveLine,
+                    ],
                   ),
                 ),
                 belowBarData: BarAreaData(
                   show: true,
                   gradient: LinearGradient(
-                    colors: gradientColors.map((color) => color.withValues(alpha: 0.8)).toList(),
+                    colors: const [
+                      YourHealthAppColors.chartBelowLine,
+                      YourHealthAppColors.chartBelowLine,
+                    ],
                   ),
                 ),
               ),
@@ -174,10 +175,7 @@ class _ChartBottomTitleWidget extends StatelessWidget {
       meta: meta,
       child: Text(
         DateFormat('dd MMM y').format(date),
-        style: TextStyle(
-          fontWeight: FontWeight.w300,
-          fontSize: 14,
-        ),
+        style: TextStyle(fontWeight: FontWeight.w300, fontSize: 12),
       ),
     );
   }
@@ -197,7 +195,7 @@ class _Title extends StatelessWidget {
               AppLocalizations.of(context)!.dynamicScreenTitle,
               style: TextStyle(
                 color: YourHealthAppColors.black,
-                fontSize: 30,
+                fontSize: 32,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -205,7 +203,7 @@ class _Title extends StatelessWidget {
               AppLocalizations.of(context)!.dynamicScreenSubTitle,
               style: TextStyle(
                 color: YourHealthAppColors.grey,
-                fontSize: 20,
+                fontSize: 16,
                 fontWeight: FontWeight.w300,
               ),
             ),
@@ -238,8 +236,9 @@ class _ResubmitMarkersLabel extends StatelessWidget {
           Text(
             alert.message,
             style: TextStyle(
-              color: YourHealthAppColors.grey,
-              fontSize: 18,
+              color: YourHealthAppColors.lightGray,
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
             ),
           ),
           if (alert.resubmitLink) ...[
@@ -250,7 +249,7 @@ class _ResubmitMarkersLabel extends StatelessWidget {
                 AppLocalizations.of(context)!.dynamicScreenResubmitMarkersLink,
                 style: TextStyle(
                   color: YourHealthAppColors.link,
-                  fontSize: 18,
+                  fontSize: 14,
                 ),
               ),
             ),
@@ -262,7 +261,7 @@ class _ResubmitMarkersLabel extends StatelessWidget {
 }
 
 class _Labs extends StatelessWidget {
-  static const _dividerSide = BorderSide(color: YourHealthAppColors.lightGray);
+  static const _dividerSide = BorderSide(color: YourHealthAppColors.strokeGray);
 
   final List<Laboratory> data;
 
@@ -277,8 +276,22 @@ class _Labs extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(AppLocalizations.of(context)!.dynamicScreenSubLabsDate),
-            Text(AppLocalizations.of(context)!.dynamicScreenSubLabsMl),
+            Text(
+              AppLocalizations.of(context)!.dynamicScreenSubLabsDate,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                color: YourHealthAppColors.grey,
+              ),
+            ),
+            Text(
+              AppLocalizations.of(context)!.dynamicScreenSubLabsMl,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                color: YourHealthAppColors.grey,
+              ),
+            ),
           ],
         ),
         Container(
@@ -304,7 +317,7 @@ class _Lab extends StatelessWidget {
   static const _criticalMlValue = 2.8;
   static const _padding = EdgeInsets.symmetric(horizontal: 3.0, vertical: 16.0);
   static const _emptySpaceL = SizedBox(width: 16.0);
-  static const _borderSide = BorderSide(color: YourHealthAppColors.lightGray);
+  static const _borderSide = BorderSide(color: YourHealthAppColors.strokeGray);
 
   final DateTime date;
   final String title;
@@ -326,7 +339,7 @@ class _Lab extends StatelessWidget {
           Text(
             _dateFormat().format(date),
             style: TextStyle(
-              fontSize: 22,
+              fontSize: 24,
               fontWeight: FontWeight.bold,
               color: YourHealthAppColors.black,
             ),
@@ -338,8 +351,8 @@ class _Lab extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w300,
+                fontSize: 17,
+                fontWeight: FontWeight.normal,
                 color: YourHealthAppColors.lightGray,
               ),
             ),
@@ -347,7 +360,7 @@ class _Lab extends StatelessWidget {
           Text(
             milliliters.toString(),
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 32,
               fontWeight: FontWeight.bold,
               color: milliliters < _criticalMlValue
                   ? YourHealthAppColors.orangeAccent

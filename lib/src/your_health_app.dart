@@ -15,7 +15,6 @@ class YourHealthApp extends StatelessWidget {
       title: 'Your Health',
       theme: ThemeData(
         fontFamily: YourHealthAppFonts.manrope,
-        colorScheme: ColorScheme.fromSeed(seedColor: YourHealthAppColors.greenAccent),
         useMaterial3: true,
       ),
       localizationsDelegates: [
