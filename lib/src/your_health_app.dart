@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'features/features.dart';
+
 class YourHealthApp extends StatelessWidget {
   const YourHealthApp({super.key});
 
@@ -12,9 +14,7 @@ class YourHealthApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Scaffold(
-        body: Center(
-          child: Text('Center'),
-        ),
+        body: DynamicScreen(),
       ),
     );
   }

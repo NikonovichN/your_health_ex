@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../api/api.dart';
 
 import 'dto.dart';
@@ -19,6 +21,6 @@ class DynamicRepositoryImpl implements DynamicRepository {
   @override
   Future<DynamicDTO> loadData() async {
     final data = await _client.get(Uri.parse(_api.mock));
-    return DynamicDTO.fromJson(Map<String, dynamic>.from(data));
+    return DynamicDTO.fromJson(jsonDecode(data.body));
   }
 }

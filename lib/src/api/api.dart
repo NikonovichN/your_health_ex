@@ -1,4 +1,5 @@
 export 'client.dart';
+export 'remote_client.dart';
 
 class YourHealthAppApi {
   static const mockString = 'http://158.160.30.46:8080/health_mock';
