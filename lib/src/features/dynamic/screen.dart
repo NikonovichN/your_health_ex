@@ -38,17 +38,21 @@ class DynamicScreen extends StatelessWidget {
         final alerts = screenData?.alerts;
         final labs = screenData?.laboratories ?? [];
 
-        return SingleChildScrollView(
-          padding: _pagePadding,
-          child: Column(
-            children: [
-              const _Title(),
-              if (alerts != null && alerts.isNotEmpty)
-                ...alerts.map((alert) => _ResubmitMarkersLabel(
-                      alert: alert,
-                    )),
-              _Labs(data: labs),
-            ],
+        return RefreshIndicator(
+          onRefresh: dynamicController.loadData,
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            padding: _pagePadding,
+            child: Column(
+              children: [
+                const _Title(),
+                if (alerts != null && alerts.isNotEmpty)
+                  ...alerts.map((alert) => _ResubmitMarkersLabel(
+                        alert: alert,
+                      )),
+                _Labs(data: labs),
+              ],
+            ),
           ),
         );
       },
