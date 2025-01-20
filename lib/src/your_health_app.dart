@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:your_health_ex/src/ui/ui.dart';
 
 import 'features/features.dart';
 
@@ -13,7 +14,8 @@ class YourHealthApp extends StatelessWidget {
     return MaterialApp(
       title: 'Your Health',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        fontFamily: YourHealthAppFonts.manrope,
+        colorScheme: ColorScheme.fromSeed(seedColor: YourHealthAppColors.greenAccent),
         useMaterial3: true,
       ),
       localizationsDelegates: [
