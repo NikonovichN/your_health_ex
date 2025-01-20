@@ -1,4 +1,6 @@
 {
   "dynamicScreenTitle": "Dynamics",
-  "dynamicScreenSubTitle": "All Period"
+  "dynamicScreenSubTitle": "All Period",
+  "dynamicScreenSubLabsDate": "Date",
+  "dynamicScreenSubLabsMl": "ME\/ml"
 }
