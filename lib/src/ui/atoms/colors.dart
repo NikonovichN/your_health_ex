@@ -4,6 +4,7 @@ class YourHealthAppColors {
   YourHealthAppColors._();
 
   static const black = Color.fromRGBO(26, 26, 26, 1);
+  static const white = Color.fromRGBO(255, 255, 255, 1);
   static const grey = Color.fromRGBO(176, 176, 176, 1);
   static const lightGray = Color.fromRGBO(130, 130, 130, 1);
   static const strokeGray = Color.fromRGBO(237, 237, 237, 1);

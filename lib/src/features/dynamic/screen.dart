@@ -94,7 +94,12 @@ class _Chart extends StatelessWidget {
         aspectRatio: 1.6,
         child: LineChart(
           LineChartData(
-            lineTouchData: const LineTouchData(enabled: false),
+            lineTouchData: LineTouchData(
+              getTouchedSpotIndicator: touchedIndicator,
+              touchTooltipData: LineTouchTooltipData(
+                getTooltipColor: (touchedSpot) => YourHealthAppColors.white,
+              ),
+            ),
             gridData: FlGridData(show: false),
             borderData: FlBorderData(show: false),
             titlesData: FlTitlesData(
@@ -156,6 +161,25 @@ class _Chart extends StatelessWidget {
       ),
     );
   }
+
+  List<TouchedSpotIndicatorData> touchedIndicator(
+    LineChartBarData barData,
+    List<int> indicators,
+  ) =>
+      indicators.map((int index) {
+        const lineStrokeWidth = 1.0;
+        final flLine = FlLine(color: YourHealthAppColors.grey, strokeWidth: lineStrokeWidth);
+
+        final dotData = FlDotData(
+          getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
+            radius: 10.0,
+            color: YourHealthAppColors.white,
+            strokeColor: YourHealthAppColors.grey,
+          ),
+        );
+
+        return TouchedSpotIndicatorData(flLine, dotData);
+      }).toList();
 }
 
 class _ChartBottomTitleWidget extends StatelessWidget {
