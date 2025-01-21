@@ -11,20 +11,31 @@ import '../../ui/ui.dart';
 import 'repository.dart';
 import 'controller.dart';
 
-class DynamicScreen extends StatelessWidget {
-  static const _pagePadding = EdgeInsets.symmetric(horizontal: 20.0, vertical: 32.0);
-
+class DynamicScreen extends StatefulWidget {
   const DynamicScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final dynamicController = DynamicScreenControllerImpl(
-      repository: DynamicRepositoryImpl(
-        api: YourHealthAppApi(),
-        client: YourHealthRemoteClient(),
-      ),
-    )..loadData();
+  State<DynamicScreen> createState() => _DynamicScreenState();
+}
 
+class _DynamicScreenState extends State<DynamicScreen> {
+  static const _pagePadding = EdgeInsets.symmetric(horizontal: 20.0, vertical: 32.0);
+
+  final dynamicController = DynamicScreenControllerImpl(
+    repository: DynamicRepositoryImpl(
+      api: YourHealthAppApi(),
+      client: YourHealthRemoteClient(),
+    ),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    dynamicController.loadData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return StreamBuilder<DynamicScreenState>(
       stream: dynamicController.stream,
       builder: (context, snapshot) {
