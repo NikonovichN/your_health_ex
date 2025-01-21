@@ -215,7 +215,7 @@ class _Title extends StatelessWidget {
 }
 
 class _ResubmitMarkersLabel extends StatelessWidget {
-  static const _margin = EdgeInsets.symmetric(vertical: 24.0);
+  static const _margin = EdgeInsets.symmetric(vertical: 20.0);
   static const _padding = EdgeInsets.all(16.0);
   static const _emptySpace = SizedBox(height: 16.0);
 

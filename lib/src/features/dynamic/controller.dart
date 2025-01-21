@@ -126,15 +126,25 @@ extension on DynamicDTO {
       );
 }
 
+enum DateIndex {
+  year(0),
+  month(1),
+  day(2);
+
+  const DateIndex(this.indx);
+
+  final int indx;
+}
+
 extension on LaboratoryDTO {
-  int getPartDateByIndex(int indx) => int.tryParse(date.split('-')[indx]) ?? 0;
+  int getPartDateByIndex(DateIndex val) => int.tryParse(date.split('-')[val.indx]) ?? 1;
 
   Laboratory toScreenData() => Laboratory(
         title: title,
         date: DateTime(
-          getPartDateByIndex(0),
-          getPartDateByIndex(1),
-          getPartDateByIndex(2),
+          getPartDateByIndex(DateIndex.year),
+          getPartDateByIndex(DateIndex.month),
+          getPartDateByIndex(DateIndex.day),
         ),
         value: value,
       );
